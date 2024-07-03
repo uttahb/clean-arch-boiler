@@ -1,0 +1,72 @@
+basePath: /
+consumes:
+    - application/json
+    - multipart/form-data
+definitions:
+    SignupResponse:
+        properties:
+            Data:
+                description: The response data.
+                example: success
+                type: string
+            Message:
+                description: The response message.
+                example: signed up successfully
+                type: string
+            Ok:
+                description: The status of the request.
+                example: false
+                type: boolean
+        required:
+            - Ok
+            - Message
+            - Data
+        type: object
+        x-go-package: _/home/apps/favs/excelledia/isorobot-v3/go/internal/docs
+host: 127.0.0.1:3000
+info:
+    description: Documentation for my go project
+    title: cleanarch
+    version: 1.0.0
+paths:
+    /signup:
+        post:
+            operationId: signupRequest
+            parameters:
+                - in: body
+                  name: email
+                  schema:
+                    type: string
+                  x-go-name: Email
+                - in: body
+                  name: password
+                  schema:
+                    type: string
+                  x-go-name: Password
+            responses:
+                "200":
+                    $ref: '#/responses/signupSuccessResponse'
+                "401":
+                    $ref: '#/responses/signupErrorResponse'
+                "409":
+                    $ref: '#/responses/signupErrorResponse'
+                "500":
+                    $ref: '#/responses/signupErrorResponse'
+            summary: User registration can be done with this endpoint.
+            tags:
+                - signup
+produces:
+    - application/json
+responses:
+    signupErrorResponse:
+        description: error response for signup requests.
+    signupSuccessResponse:
+        description: Response for signup request
+        schema:
+            $ref: '#/definitions/SignupResponse'
+schemes:
+    - http
+securityDefinitions:
+    basic:
+        type: basic
+swagger: "2.0"
